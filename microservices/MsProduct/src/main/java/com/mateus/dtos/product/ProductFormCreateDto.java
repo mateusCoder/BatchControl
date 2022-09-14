@@ -10,13 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDto {
+public class ProductFormCreateDto {
 
     private String name;
 
     private String description;
 
     private Batch batch;
-
-    private boolean active;
 }

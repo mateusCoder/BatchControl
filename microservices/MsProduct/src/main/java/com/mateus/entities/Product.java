@@ -1,4 +1,4 @@
-package com.mateus.entities;
+package  com.mateus.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +25,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "Batch_ID")
     private Batch batch;
+
+    private boolean active;
 }
