@@ -5,19 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BatchDto {
+public class BatchFormPutFromRetailDto {
 
-    private String id;
-
-    private String description;
-
-    private LocalDate expirationDate;
+    private String productName;
 
     private Integer amount;
 }

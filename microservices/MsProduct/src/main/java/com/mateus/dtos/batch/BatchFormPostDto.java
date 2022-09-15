@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BatchDto {
+public class BatchFormPostDto {
 
     private String id;
 
@@ -20,4 +20,6 @@ public class BatchDto {
     private LocalDate expirationDate;
 
     private Integer amount;
+
+    private Long productId;
 }

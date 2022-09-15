@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,9 +24,12 @@ public class Product {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "Batch_ID")
-    private Batch batch;
-
     private boolean active;
+
+    @OneToMany(mappedBy = "product")
+    private List<Batch> batches =  new ArrayList<>();
+
+    public void setBatches(Batch batch){
+        batches.add(batch);
+    }
 }

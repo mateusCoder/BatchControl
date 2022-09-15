@@ -1,18 +1,14 @@
 package com.mateus.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 public class Batch {
@@ -25,4 +21,8 @@ public class Batch {
     private LocalDate expirationDate;
 
     private Integer amount;
+
+    @ManyToOne
+    @JoinColumn(name = "Product_ID")
+    private Product product;
 }
