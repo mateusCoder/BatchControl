@@ -10,6 +10,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/batches")
@@ -23,17 +25,17 @@ public class BatchController {
     }
 
     @PostMapping
-    public ResponseEntity<BatchDto> create(@RequestBody BatchFormPostDto batchFormPostDto){
+    public ResponseEntity<BatchDto> create(@Valid @RequestBody BatchFormPostDto batchFormPostDto){
         return ResponseEntity.created(batchService.create(batchFormPostDto)).build();
     }
 
     @PutMapping("/retail")
-    public ResponseEntity<BatchLeavingDto> updateFromRetail(@RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
+    public ResponseEntity<BatchLeavingDto> updateFromRetail(@Valid @RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
         return ResponseEntity.ok(batchService.updateFromRetail(batchFormPutFromRetailDto));
     }
 
     @PutMapping("/wholesale")
-    public ResponseEntity<BatchLeavingDto> updateFromWholesale(@RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
+    public ResponseEntity<BatchLeavingDto> updateFromWholesale(@Valid @RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
         return ResponseEntity.ok(batchService.updateFromWholesale(batchFormPutFromWholesaleDto));
     }
 }
