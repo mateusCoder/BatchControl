@@ -1,10 +1,7 @@
 package com.mateus.services.impl;
 
 import com.google.common.collect.Lists;
-import com.mateus.dtos.batch.BatchDto;
-import com.mateus.dtos.batch.BatchFormPostDto;
-import com.mateus.dtos.batch.BatchFormPutFromRetailDto;
-import com.mateus.dtos.batch.BatchFormPutFromWholesaleDto;
+import com.mateus.dtos.batch.*;
 import com.mateus.entities.Batch;
 import com.mateus.entities.Product;
 import com.mateus.repositories.BatchRepository;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,9 +52,10 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public BatchDto updateFromRetail(Long id, BatchFormPutFromRetailDto batchFormPutFromRetailDto) {
+    public BatchLeavingDto updateFromRetail(BatchFormPutFromRetailDto batchFormPutFromRetailDto) {
+        BatchLeavingDto batchLeavingDto = new BatchLeavingDto();
         Integer amount = batchFormPutFromRetailDto.getAmount();
-        List<Batch> batches = findBatchesWithAmountByProduct(id);
+        List<Batch> batches = findBatchesWithAmountByProduct(batchFormPutFromRetailDto.getIdProduct());
         Integer totalAmountBatches = 0;
 
         for(Batch batch: batches){
@@ -64,32 +63,39 @@ public class BatchServiceImpl implements BatchService {
         }
 
         if(totalAmountBatches >= batchFormPutFromRetailDto.getAmount()){
-            subtractAmountBatch(amount, batches);
+            List<String> idBatches = subtractAmountBatch(amount, batches);
+            batchLeavingDto.setProductName(checkProductExistence(batchFormPutFromRetailDto.getIdProduct()).getName());
+            idBatches.forEach(e ->batchLeavingDto.setIdBatch(e));
         }else{
             throw new RuntimeException();
         }
-        return mapper.map(batchFormPutFromRetailDto, BatchDto.class);
+
+        return batchLeavingDto;
     }
 
     @Override
-    public BatchDto updateFromWholesale(Long id, BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto) {
-        List<Batch> batchesForSale = findBatchesWithAmountByProduct(id).stream().filter(
+    public BatchLeavingDto updateFromWholesale(BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto) {
+        BatchLeavingDto batchLeavingDto = new BatchLeavingDto();
+        batchLeavingDto.setProductName(checkProductExistence(batchFormPutFromWholesaleDto.getIdProduct()).getName());
+        List<Batch> batchesForSale = findBatchesWithAmountByProduct(batchFormPutFromWholesaleDto.getIdProduct()).stream().filter(
                 e -> e.getAmount() == batchFormPutFromWholesaleDto.getProductsPerBatch()).collect(Collectors.toList());
 
         if(batchesForSale.size() == batchFormPutFromWholesaleDto.getNumberBatches()){
             batchesForSale.forEach(e -> e.setAmount(0));
             batchesForSale.forEach(batchRepository::save);
+            batchesForSale.forEach(e -> batchLeavingDto.setIdBatch(e.getId()));
 
         } else if (batchesForSale.size() >= batchFormPutFromWholesaleDto.getNumberBatches()){
             List<List<Batch>> subLists = Lists.partition(batchesForSale, batchFormPutFromWholesaleDto.getNumberBatches());
             subLists.get(0).forEach(e -> e.setAmount(0));
             subLists.get(0).forEach(batchRepository::save);
+            subLists.get(0).forEach(e -> batchLeavingDto.setIdBatch(e.getId()));
 
         } else {
             throw new RuntimeException();
         }
 
-        return mapper.map(batchFormPutFromWholesaleDto, BatchDto.class);
+        return batchLeavingDto;
     }
 
     private Batch checkBatchExistence(String id){
@@ -116,7 +122,8 @@ public class BatchServiceImpl implements BatchService {
         return batchesWithAmount;
     }
 
-    private void subtractAmountBatch(Integer amount, List<Batch> batches){
+    private List<String> subtractAmountBatch(Integer amount, List<Batch> batches){
+        List idBatches = new ArrayList<>();
         int i = 0;
         while (amount > 0){
             Integer amountBatch = batches.get(i).getAmount();
@@ -125,12 +132,15 @@ public class BatchServiceImpl implements BatchService {
             if(amount > amountBatch){
                 batch.setAmount(0);
                 amount-=amountBatch;
+                idBatches.add(batch.getId());
             }else{
                 batch.setAmount(amountBatch - amount);
                 amount-=amount;
+                idBatches.add(batch.getId());
             }
             batchRepository.save(batch);
             i++;
         }
+        return  idBatches;
     }
 }

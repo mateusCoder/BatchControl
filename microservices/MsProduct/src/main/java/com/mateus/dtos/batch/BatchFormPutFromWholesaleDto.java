@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BatchFormPutFromWholesaleDto {
 
-    private String productName;
+    private Long idProduct;
 
     private Integer numberBatches;
 

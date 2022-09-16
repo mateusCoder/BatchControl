@@ -1,9 +1,6 @@
 package com.mateus.services;
 
-import com.mateus.dtos.batch.BatchDto;
-import com.mateus.dtos.batch.BatchFormPostDto;
-import com.mateus.dtos.batch.BatchFormPutFromRetailDto;
-import com.mateus.dtos.batch.BatchFormPutFromWholesaleDto;
+import com.mateus.dtos.batch.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,7 +11,7 @@ public interface BatchService {
 
     URI create(BatchFormPostDto batchFormPostDto);
 
-    BatchDto updateFromRetail(Long id, BatchFormPutFromRetailDto batchFormPutFromRetailDto);
+    BatchLeavingDto updateFromRetail(BatchFormPutFromRetailDto batchFormPutFromRetailDto);
 
-    BatchDto updateFromWholesale(Long id, BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto);
+    BatchLeavingDto updateFromWholesale(BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto);
 }

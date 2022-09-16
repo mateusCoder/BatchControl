@@ -1,9 +1,6 @@
 package com.mateus.controllers;
 
-import com.mateus.dtos.batch.BatchDto;
-import com.mateus.dtos.batch.BatchFormPostDto;
-import com.mateus.dtos.batch.BatchFormPutFromRetailDto;
-import com.mateus.dtos.batch.BatchFormPutFromWholesaleDto;
+import com.mateus.dtos.batch.*;
 import com.mateus.services.impl.BatchServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,13 +27,13 @@ public class BatchController {
         return ResponseEntity.created(batchService.create(batchFormPostDto)).build();
     }
 
-    @PutMapping("/retail/{id}")
-    public ResponseEntity<BatchDto> updateFromRetail(@PathVariable Long id, @RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
-        return ResponseEntity.ok(batchService.updateFromRetail(id, batchFormPutFromRetailDto));
+    @PutMapping("/retail")
+    public ResponseEntity<BatchLeavingDto> updateFromRetail(@RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
+        return ResponseEntity.ok(batchService.updateFromRetail(batchFormPutFromRetailDto));
     }
 
-    @PutMapping("/wholesale/{id}")
-    public ResponseEntity<BatchDto> updateFromWholesale(@PathVariable Long id, @RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
-        return ResponseEntity.ok(batchService.updateFromWholesale(id, batchFormPutFromWholesaleDto));
+    @PutMapping("/wholesale")
+    public ResponseEntity<BatchLeavingDto> updateFromWholesale(@RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
+        return ResponseEntity.ok(batchService.updateFromWholesale(batchFormPutFromWholesaleDto));
     }
 }
