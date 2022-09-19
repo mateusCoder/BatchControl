@@ -20,6 +20,7 @@ import javax.validation.Valid;
 public class ProductController {
 
     private final ProductServiceImpl productService;
+
     @GetMapping
     public ResponseEntity<Page<ProductDto>> findAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable page){
         return ResponseEntity.ok().body(productService.findAll(page));

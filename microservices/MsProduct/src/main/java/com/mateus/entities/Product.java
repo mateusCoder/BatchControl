@@ -26,7 +26,7 @@ public class Product {
 
     private boolean active;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany()
     private List<Batch> batches =  new ArrayList<>();
 
     public void setBatches(Batch batch){

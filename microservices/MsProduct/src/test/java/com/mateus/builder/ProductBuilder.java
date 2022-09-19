@@ -8,6 +8,7 @@ import com.mateus.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductBuilder {
@@ -20,7 +21,7 @@ public class ProductBuilder {
 
     private static final boolean active = true;
 
-    private static final List<Batch> batches = null;
+    private static final List<Batch> batches = new ArrayList<>(List.of(BatchBuilder.getBatch()));
 
     public static Product getProduct(){
         return Product.builder()
@@ -36,7 +37,6 @@ public class ProductBuilder {
         return ProductDto.builder()
                 .name(name)
                 .description(description)
-                .batch(null)
                 .active(active)
                 .build();
     }
@@ -45,7 +45,6 @@ public class ProductBuilder {
         return ProductFormCreateDto.builder()
                 .name(name)
                 .description(description)
-                .batch(null)
                 .build();
     }
 
@@ -53,7 +52,6 @@ public class ProductBuilder {
         return ProductFormDto.builder()
                 .name(name)
                 .description(description)
-                .batch(null)
                 .active(active)
                 .build();
     }

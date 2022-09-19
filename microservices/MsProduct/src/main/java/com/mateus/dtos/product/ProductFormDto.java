@@ -22,8 +22,6 @@ public class ProductFormDto {
 
     private String description;
 
-    private Batch batch;
-
     @NotNull
     private boolean active;
 }
