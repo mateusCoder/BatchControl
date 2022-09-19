@@ -46,7 +46,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnResponseEntityPageableProductDto() {
         when(productService.findAll((Pageable) any())).thenReturn(ProductBuilder.getProductDtoPageable());
 
         Pageable page = PageRequest.of(0, 100);
@@ -58,7 +58,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void findOne() {
+    void whenFindOneThenReturnResponseEntityProductDto() {
         when(productService.findOne(anyLong())).thenReturn(ProductBuilder.getProductDto());
 
         ResponseEntity<ProductDto> response = productController.findOne(ProductBuilder.getProduct().getId());
@@ -69,7 +69,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnSaveResponseEntityProductDto() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -87,7 +87,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnUpdateResponseEntityProductDto() {
         when(productService.update(anyLong(), any())).thenReturn(ProductBuilder.getProductDto());
 
         ResponseEntity<ProductDto> response = productController.update(ProductBuilder.getProduct().getId(), ProductBuilder.getProductFormDto());
