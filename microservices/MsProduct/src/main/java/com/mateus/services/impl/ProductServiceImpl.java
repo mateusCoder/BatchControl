@@ -4,6 +4,7 @@ import com.mateus.dtos.product.ProductDto;
 import com.mateus.dtos.product.ProductFormCreateDto;
 import com.mateus.dtos.product.ProductFormDto;
 import com.mateus.entities.Product;
+import com.mateus.exceptions.ObjectNotFound;
 import com.mateus.repositories.ProductRepository;
 import com.mateus.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Product checkProductExistence(Long id){
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        return productRepository.findById(id).orElseThrow(() -> new ObjectNotFound("Product Not Found!"));
     }
 }

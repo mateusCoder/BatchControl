@@ -1,4 +1,4 @@
-package com.mateus.exceptions.handler;
+package com.mateus.exceptions;
 
 import com.mateus.exceptions.FieldMessage;
 import lombok.AllArgsConstructor;
