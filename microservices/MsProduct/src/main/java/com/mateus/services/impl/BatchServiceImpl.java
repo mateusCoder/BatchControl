@@ -11,8 +11,6 @@ import com.mateus.repositories.ProductRepository;
 import com.mateus.services.BatchService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.ValidationException;
-import org.modelmapper.spi.ErrorMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
