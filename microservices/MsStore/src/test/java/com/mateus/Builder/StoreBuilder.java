@@ -19,7 +19,7 @@ public class StoreBuilder {
 
     private static final boolean active = true;
 
-    public Store getStore(){
+    public static Store getStore(){
         return Store.builder()
                 .id(id)
                 .companyName(companyName)
@@ -30,7 +30,7 @@ public class StoreBuilder {
                 .build();
     }
 
-    public StoreDto getStoreDto(){
+    public static StoreDto getStoreDto(){
         return StoreDto.builder()
                 .companyName(companyName)
                 .phoneNumber(phoneNumber)
@@ -40,7 +40,7 @@ public class StoreBuilder {
                 .build();
     }
 
-    public StoreFormDto getStoreFormDto(){
+    public static StoreFormDto getStoreFormDto(){
         return StoreFormDto.builder()
                 .companyName(companyName)
                 .phoneNumber(phoneNumber)
@@ -50,7 +50,7 @@ public class StoreBuilder {
                 .build();
     }
 
-    public StoreFormPostDto getStoreFormPostDto(){
+    public static StoreFormPostDto getStoreFormPostDto(){
         return StoreFormPostDto.builder()
                 .companyName(companyName)
                 .phoneNumber(phoneNumber)
