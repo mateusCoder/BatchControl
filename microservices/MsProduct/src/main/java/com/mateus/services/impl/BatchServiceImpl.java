@@ -100,22 +100,22 @@ public class BatchServiceImpl implements BatchService {
         return batchLeavingDto;
     }
 
-    private Batch checkBatchExistence(String id){
+    public Batch checkBatchExistence(String id){
         return batchRepository.findById(id).orElseThrow(() ->new ObjectNotFound("Batch Not Found!"));
     }
 
-    private Product checkProductExistence(Long id){
+    public Product checkProductExistence(Long id){
         return productRepository.findById(id).orElseThrow(() ->new ObjectNotFound("Product Not Found!"));
     }
 
-    private void sumExistencesBatch(String id, Integer amount) {
+    protected void sumExistencesBatch(String id, Integer amount) {
         Batch batch = checkBatchExistence(id);
         Integer actualAmount = batch.getAmount();
         batch.setAmount(actualAmount + amount);
         batchRepository.save(batch);
     }
 
-    private List<Batch> findBatchesWithAmountByProduct(Long id) {
+    protected List<Batch> findBatchesWithAmountByProduct(Long id) {
         Product product = checkProductExistence(id);
         List<Batch> batches = product.getBatches();
         List<Batch> batchesWithAmount = batches.stream().filter(e -> e.getAmount() > 0).collect(Collectors.toList());
@@ -124,7 +124,7 @@ public class BatchServiceImpl implements BatchService {
         return batchesWithAmount;
     }
 
-    private List<String> subtractAmountBatch(Integer amount, List<Batch> batches){
+    protected List<String> subtractAmountBatch(Integer amount, List<Batch> batches){
         List idBatches = new ArrayList<>();
         int i = 0;
         while (amount > 0){
