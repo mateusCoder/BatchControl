@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/stores")
@@ -21,12 +23,12 @@ public class StoreController {
     }
 
     @PostMapping
-    public ResponseEntity<StoreDto> create(@RequestBody StoreFormPostDto storeFormPostDto){
+    public ResponseEntity<StoreDto> create(@Valid @RequestBody StoreFormPostDto storeFormPostDto){
         return ResponseEntity.created(storeService.create(storeFormPostDto)).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StoreDto> update(@PathVariable Long id, @RequestBody StoreFormDto storeFormDto){
+    public ResponseEntity<StoreDto> update(@PathVariable Long id, @Valid @RequestBody StoreFormDto storeFormDto){
         return ResponseEntity.ok(storeService.update(id, storeFormDto));
     }
 }

@@ -4,6 +4,7 @@ import com.mateus.dtos.StoreDto;
 import com.mateus.dtos.StoreFormDto;
 import com.mateus.dtos.StoreFormPostDto;
 import com.mateus.entities.Store;
+import com.mateus.exception.ObjectNotFound;
 import com.mateus.repositories.StoreRepository;
 import com.mateus.services.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,6 @@ public class StoreServiceImpl implements StoreService {
     }
 
     public Store checkStoreExistence(Long id){
-        return storeRepository.findById(id).orElseThrow(RuntimeException::new);
+        return storeRepository.findById(id).orElseThrow(() -> new ObjectNotFound("Store Not Found!"));
     }
 }
