@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MsStoreApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main(){
+		MsStoreApplication.main(new String[] {});
 	}
 
 }
