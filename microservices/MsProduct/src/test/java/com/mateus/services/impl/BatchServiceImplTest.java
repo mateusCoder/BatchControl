@@ -59,7 +59,7 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnPageableBatchDto() {
         when(batchRepository.findAll((Pageable) any())).thenReturn(BatchBuilder.getBatchPageable());
 
         Pageable page = PageRequest.of(0, 100);
@@ -72,12 +72,13 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void createNewBatches() {
+    void whenCreateThenReturnSaveBatchtDto() {
         MockHttpServletRequest request =new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
-        when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(ProductBuilder.getProduct()));
+        when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
+        when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
         URI response = batchService.create(BatchBuilder.getBatchFormPostDto());
 
@@ -85,7 +86,7 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void updateFromRetail() {
+    void whenUpdateThenReturnUpdateBatchRetailDto() {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(ProductBuilder.getProduct()));
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
@@ -96,7 +97,7 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void updateFromWholesale() {
+    void whenUpdateThenReturnUpdateWholesaleDto() {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(ProductBuilder.getProduct()));
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
@@ -129,7 +130,7 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void sumExistencesBatch() {
+    void whenSumExistencesBatchThenUpdateBatchAmount(){
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
@@ -139,7 +140,7 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void findBatchesWithAmountByProduct() {
+    void whenFindBatchesWithAmountByProductThenReturnListOfBatches() {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(ProductBuilder.getProduct()));
 
         List<Batch> response = batchService.findBatchesWithAmountByProduct(ProductBuilder.getProduct().getId());
@@ -149,14 +150,13 @@ class BatchServiceImplTest {
     }
 
     @Test
-    void subtractAmountBatch() {
+    void whenSubtractAmountBatchThenReturnListOfBatchesChanged() {
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
-        List<String> response = batchService.subtractAmountBatch(40, ProductBuilder.getProduct().getBatches());
+        List<String> response = batchService.subtractAmountBatch(10, ProductBuilder.getProduct().getBatches());
 
         assertEquals(ArrayList.class, response.getClass());
         assertNotNull(response);
-
     }
 }

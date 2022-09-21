@@ -17,7 +17,7 @@ public class BatchBuilder {
 
     private static final String description = "Lote de Bolo - Morango";
 
-    private static final LocalDate expirationDate = LocalDate.of(20223, 9, 20);
+    private static final LocalDate expirationDate = LocalDate.of(2023, 9, 20);
 
     private static final Integer amount = 50;
 

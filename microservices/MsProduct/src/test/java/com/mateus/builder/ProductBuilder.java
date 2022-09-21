@@ -8,7 +8,7 @@ import com.mateus.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductBuilder {
@@ -21,7 +21,18 @@ public class ProductBuilder {
 
     private static final boolean active = true;
 
-    private static final List<Batch> batches = new ArrayList<>(List.of(BatchBuilder.getBatch()));
+    private static final Batch batchA = new Batch("1a09b2022a",
+            "Lote de Bolo - Morango",
+            LocalDate.of(2023, 7, 20),
+            20,
+            ProductBuilder.getProduct());
+
+    private static final Batch batchB = new Batch("1a09b2022b",
+            "Lote de Bolo - Morango",
+            LocalDate.of(2023, 8, 20),
+            50,
+            ProductBuilder.getProduct());
+    private static final List<Batch> batches = List.of(BatchBuilder.getBatch(), batchA, batchB);
 
     public static Product getProduct(){
         return Product.builder()
