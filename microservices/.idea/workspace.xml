@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ed0171b-ae66-474c-b9e1-3cc37d8b27d1" name="Changes" comment="" />
+    <list default="true" id="29ba2431-ddb2-473b-881c-91cf5ef894e0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectId" id="2Ej7nnH0lRLwSpD5mdcdUUYTo8P" />
+  <component name="ProjectId" id="2F2iDwACVCjo2ZGZ9DbqmNgEdT5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -15,18 +18,17 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/mateus.moraes/workspace/ws-batch-control/microservices/MsProduct"
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5ed0171b-ae66-474c-b9e1-3cc37d8b27d1" name="Changes" comment="" />
-      <created>1663097308662</created>
+      <changelist id="29ba2431-ddb2-473b-881c-91cf5ef894e0" name="Changes" comment="" />
+      <created>1663696464499</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1663097308662</updated>
+      <updated>1663696464499</updated>
     </task>
     <servers />
   </component>
