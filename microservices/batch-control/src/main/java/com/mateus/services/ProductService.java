@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import java.net.URI;
 
 public interface ProductService {
-    Page<ProductDto> findAll(Pageable page);
+    Page<ProductDto> findAll(Long id, Pageable page);
 
-    ProductDto findOne(Long id);
+    ProductDto findOne(Long id, Long productId);
 
-    URI create(ProductFormCreateDto productFormDto);
+    URI create(Long id, ProductFormCreateDto productFormDto);
 
-    ProductDto update(Long id, ProductFormDto productFormDto);
+    ProductDto update(Long id, Long productId, ProductFormDto productFormDto);
 }

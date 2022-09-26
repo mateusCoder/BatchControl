@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/batches")
+@RequestMapping("/v1/products/batches")
 public class BatchController {
 
     private final BatchServiceImpl batchService;

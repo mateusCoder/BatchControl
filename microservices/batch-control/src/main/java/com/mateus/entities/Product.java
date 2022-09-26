@@ -32,4 +32,6 @@ public class Product {
     public void setBatches(Batch batch){
         batches.add(batch);
     }
+
+    private Long storeId;
 }

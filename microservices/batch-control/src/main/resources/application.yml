@@ -2,7 +2,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     password: ''
-    url: jdbc:h2:mem:mateus-ms-product
+    url: jdbc:h2:mem:mateus-batch-control
     username: sa
   h2:
     console:

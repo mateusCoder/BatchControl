@@ -5,10 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +29,15 @@ public class Store {
     private String city;
 
     private boolean active;
+
+    @OneToMany()
+    @JoinColumn(name = "Products_ID")
+    private List<Product> products =  new ArrayList<>();
+
+    public List<Product> getProducts(){
+        return products;
+    }
+    public void setProducts(Product product){
+        products.add(product);
+    }
 }
