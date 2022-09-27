@@ -20,4 +20,6 @@ public class ProviderDto {
     private String cnpj;
 
     private String phoneNumber;
+
+    private boolean active;
 }

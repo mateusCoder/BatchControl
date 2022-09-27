@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class ProviderFormDto {
+public class ProviderFormPostDto {
 
     @NotBlank
     private String company;
@@ -28,8 +27,5 @@ public class ProviderFormDto {
 
     @NotBlank
     private String phoneNumber;
-
-    @NotNull
-    private boolean active;
 
 }

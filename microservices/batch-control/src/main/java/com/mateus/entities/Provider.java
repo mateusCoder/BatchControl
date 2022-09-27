@@ -30,4 +30,6 @@ public class Provider {
     private String cnpj;
 
     private String phoneNumber;
+
+    private boolean active;
 }
