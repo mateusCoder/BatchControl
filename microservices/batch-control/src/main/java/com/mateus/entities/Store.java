@@ -37,6 +37,7 @@ public class Store {
     public List<Product> getProducts(){
         return products;
     }
+
     public void setProducts(Product product){
         products.add(product);
     }

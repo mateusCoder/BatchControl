@@ -75,4 +75,8 @@ public class ProductServiceImpl implements ProductService {
     public Store checkStoreExistence(Long id){
         return storeRepository.findById(id).orElseThrow(() -> new ObjectNotFound("Store not found!"));
     }
+
+    public Product checkProductExistence(Long id){
+        return productRepository.findById(id).orElseThrow(() -> new ObjectNotFound("Product not found!"));
+    }
 }
