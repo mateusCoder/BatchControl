@@ -22,7 +22,5 @@ public class Batch {
 
     private Integer amount;
 
-    @ManyToOne
-    @JoinColumn(name = "Product_ID")
-    private Product product;
+    private Long productId;
 }

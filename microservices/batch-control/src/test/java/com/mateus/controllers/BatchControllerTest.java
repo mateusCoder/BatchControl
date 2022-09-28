@@ -1,6 +1,7 @@
 package com.mateus.controllers;
 
 import com.mateus.builder.BatchBuilder;
+import com.mateus.builder.ProductBuilder;
 import com.mateus.dtos.batch.BatchDto;
 import com.mateus.dtos.batch.BatchLeavingDto;
 import com.mateus.services.impl.BatchServiceImpl;
@@ -26,6 +27,7 @@ import java.net.URI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 class BatchControllerTest {
@@ -46,10 +48,11 @@ class BatchControllerTest {
 
     @Test
     void whenFindAllThenReturnResponseEntityPageableBatchDto() {
-        when(batchService.findAll((Pageable) any())).thenReturn(BatchBuilder.getBatchDtoPageable());
+        when(batchService.findAll(anyLong(), (Pageable) any())).thenReturn(BatchBuilder.getBatchDtoPageable());
 
         Pageable page = PageRequest.of(0, 100);
-        ResponseEntity<Page<BatchDto>> response = batchController.findAll(page);
+        ResponseEntity<Page<BatchDto>> response = batchController.findAll(ProductBuilder.getProduct().getId(),
+                page);
 
         assertNotNull(response);
         assertEquals(ResponseEntity.class, response.getClass());
@@ -65,9 +68,10 @@ class BatchControllerTest {
                 .path("/v1/batches/{id}")
                 .build(BatchBuilder.getBatch().getId());
 
-        when(batchService.create(any())).thenReturn(uri);
+        when(batchService.create(anyLong(), any())).thenReturn(uri);
 
-        ResponseEntity<BatchDto> response = batchController.create(BatchBuilder.getBatchFormPostDto());
+        ResponseEntity<BatchDto> response = batchController.create(ProductBuilder.getProduct().getId(),
+                BatchBuilder.getBatchFormPostDto());
 
         assertNotNull(response);
         assertEquals(uri.toString(), "http://localhost/v1/batches/" + BatchBuilder.getBatchDto().getId());
@@ -76,10 +80,11 @@ class BatchControllerTest {
 
     @Test
     void  whenUpdateFromRetailThenReturnUpdateResponseEntityBatchDtoFromRetail() {
-        when(batchService.updateFromRetail(any())).thenReturn(BatchBuilder.getBatchLeavingDto());
+        when(batchService.updateFromRetail(anyLong(), any())).thenReturn(BatchBuilder.getBatchLeavingDto());
 
         ResponseEntity<BatchLeavingDto> response = batchController
-                .updateFromRetail(BatchBuilder.getBatchFormPutFromRetailDto());
+                .updateFromRetail(ProductBuilder.getProduct().getId(),
+                        BatchBuilder.getBatchFormPutFromRetailDto());
 
         assertNotNull(response);
         assertEquals(ResponseEntity.class, response.getClass());
@@ -88,10 +93,11 @@ class BatchControllerTest {
 
     @Test
     void  whenUpdateFromWholesaleThenReturnUpdateResponseEntityBatchDtoFromWholesale() {
-        when(batchService.updateFromWholesale(any())).thenReturn(BatchBuilder.getBatchLeavingDto());
+        when(batchService.updateFromWholesale(anyLong(), any())).thenReturn(BatchBuilder.getBatchLeavingDto());
 
         ResponseEntity<BatchLeavingDto> response = batchController
-                .updateFromWholesale(BatchBuilder.getBatchFormPutFromWholesaleDto());
+                .updateFromWholesale(ProductBuilder.getProduct().getId(),
+                        BatchBuilder.getBatchFormPutFromWholesaleDto());
 
         assertNotNull(response);
         assertEquals(ResponseEntity.class, response.getClass());

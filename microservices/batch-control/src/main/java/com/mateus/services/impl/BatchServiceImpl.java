@@ -32,19 +32,20 @@ public class BatchServiceImpl implements BatchService {
     private final ModelMapper mapper;
 
     @Override
-    public Page<BatchDto> findAll(Pageable page) {
-        Page<Batch> batches = batchRepository.findAll(page);
+    public Page<BatchDto> findAll(Long id, Pageable page) {
+        checkProductExistence(id);
+        Page<Batch> batches = batchRepository.findByProductId(id, page);
         return batches.map(e -> mapper.map(e, BatchDto.class));
     }
 
     @Override
-    public URI create(BatchFormPostDto batchFormPostDto) {
+    public URI create(Long id, BatchFormPostDto batchFormPostDto) {
         Batch batch = mapper.map(batchFormPostDto, Batch.class);
         if(batchRepository.findById(batch.getId()).isPresent()){
             sumExistencesBatch(batch.getId(), batch.getAmount());
         }else{
-            Product product = checkProductExistence(batchFormPostDto.getProductId());
-            batch.setProduct(product);
+            Product product = checkProductExistence(id);
+            batch.setProductId(product.getId());
             batchRepository.save(batch);
 
             product.setBatches(batch);
@@ -54,10 +55,10 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public BatchLeavingDto updateFromRetail(BatchFormPutFromRetailDto batchFormPutFromRetailDto) {
+    public BatchLeavingDto updateFromRetail(Long id, BatchFormPutFromRetailDto batchFormPutFromRetailDto) {
         BatchLeavingDto batchLeavingDto = new BatchLeavingDto();
         Integer amount = batchFormPutFromRetailDto.getAmount();
-        List<Batch> batches = findBatchesWithAmountByProduct(batchFormPutFromRetailDto.getIdProduct());
+        List<Batch> batches = findBatchesWithAmountByProduct(id);
         Integer totalAmountBatches = 0;
 
         for(Batch batch: batches){
@@ -66,7 +67,7 @@ public class BatchServiceImpl implements BatchService {
 
         if(totalAmountBatches >= batchFormPutFromRetailDto.getAmount()){
             List<String> idBatches = subtractAmountBatch(amount, batches);
-            batchLeavingDto.setProductName(checkProductExistence(batchFormPutFromRetailDto.getIdProduct()).getName());
+            batchLeavingDto.setProductName(checkProductExistence(id).getName());
             idBatches.forEach(e ->batchLeavingDto.setIdBatch(e));
         }else{
             throw new UnprocessableEntity("Insufficient Amount to Process");
@@ -76,10 +77,10 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public BatchLeavingDto updateFromWholesale(BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto) {
+    public BatchLeavingDto updateFromWholesale(Long id, BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto) {
         BatchLeavingDto batchLeavingDto = new BatchLeavingDto();
-        batchLeavingDto.setProductName(checkProductExistence(batchFormPutFromWholesaleDto.getIdProduct()).getName());
-        List<Batch> batchesForSale = findBatchesWithAmountByProduct(batchFormPutFromWholesaleDto.getIdProduct()).stream().filter(
+        batchLeavingDto.setProductName(checkProductExistence(id).getName());
+        List<Batch> batchesForSale = findBatchesWithAmountByProduct(id).stream().filter(
                 e -> e.getAmount() == batchFormPutFromWholesaleDto.getProductsPerBatch()).collect(Collectors.toList());
 
         if(batchesForSale.size() == batchFormPutFromWholesaleDto.getNumberBatches()){
@@ -117,6 +118,7 @@ public class BatchServiceImpl implements BatchService {
 
     protected List<Batch> findBatchesWithAmountByProduct(Long id) {
         Product product = checkProductExistence(id);
+        System.out.println(product.getBatches());
         List<Batch> batches = product.getBatches();
         List<Batch> batchesWithAmount = batches.stream().filter(e -> e.getAmount() > 0).collect(Collectors.toList());
         batchesWithAmount.sort((d1, d2) -> d1.getExpirationDate().compareTo(d2.getExpirationDate()));

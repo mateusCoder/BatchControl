@@ -61,10 +61,11 @@ class BatchServiceImplTest {
 
     @Test
     void whenFindAllThenReturnPageableBatchDto() {
-        when(batchRepository.findAll((Pageable) any())).thenReturn(BatchBuilder.getBatchPageable());
+        when(productRepository.findById(anyLong())).thenReturn(Optional.of(ProductBuilder.getProduct()));
+        when(batchRepository.findByProductId(anyLong(), (Pageable) any())).thenReturn(BatchBuilder.getBatchPageable());
 
         Pageable page = PageRequest.of(0, 100);
-        Page<BatchDto> response = batchService.findAll(page);
+        Page<BatchDto> response = batchService.findAll(ProductBuilder.getProduct().getId(), page);
 
         assertNotNull(response);
         assertEquals(PageImpl.class, response.getClass());
@@ -81,7 +82,8 @@ class BatchServiceImplTest {
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
-        URI response = batchService.create(BatchBuilder.getBatchFormPostDto());
+        URI response = batchService.create(ProductBuilder.getProduct().getId(),
+                BatchBuilder.getBatchFormPostDto());
 
         verify(batchRepository, times(1)).save(any(Batch.class));
     }
@@ -92,7 +94,8 @@ class BatchServiceImplTest {
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
-        BatchLeavingDto response = batchService.updateFromRetail(BatchBuilder.getBatchFormPutFromRetailDto());
+        BatchLeavingDto response = batchService.updateFromRetail(ProductBuilder.getProduct().getId(),
+                BatchBuilder.getBatchFormPutFromRetailDto());
 
         assertNotNull(response);
     }
@@ -103,7 +106,8 @@ class BatchServiceImplTest {
         when(batchRepository.findById(anyString())).thenReturn(Optional.of(BatchBuilder.getBatch()));
         when(batchRepository.save(any())).thenReturn(BatchBuilder.getBatch());
 
-        BatchLeavingDto response = batchService.updateFromWholesale(BatchBuilder.getBatchFormPutFromWholesaleDto());
+        BatchLeavingDto response = batchService.updateFromWholesale(ProductBuilder.getProduct().getId(),
+                BatchBuilder.getBatchFormPutFromWholesaleDto());
 
         assertNotNull(response);
     }

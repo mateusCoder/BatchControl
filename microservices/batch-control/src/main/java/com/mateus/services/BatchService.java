@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import java.net.URI;
 
 public interface BatchService {
-    Page<BatchDto> findAll(Pageable page);
+    Page<BatchDto> findAll(Long id, Pageable page);
 
-    URI create(BatchFormPostDto batchFormPostDto);
+    URI create(Long id, BatchFormPostDto batchFormPostDto);
 
-    BatchLeavingDto updateFromRetail(BatchFormPutFromRetailDto batchFormPutFromRetailDto);
+    BatchLeavingDto updateFromRetail(Long id, BatchFormPutFromRetailDto batchFormPutFromRetailDto);
 
-    BatchLeavingDto updateFromWholesale(BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto);
+    BatchLeavingDto updateFromWholesale(Long id, BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto);
 }

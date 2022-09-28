@@ -14,28 +14,30 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/products/batches")
+@RequestMapping("/v1/products/{id}/batches")
 public class BatchController {
 
     private final BatchServiceImpl batchService;
 
     @GetMapping
-    public ResponseEntity<Page<BatchDto>> findAll(@PageableDefault(sort = "amount", direction = Sort.Direction.DESC)Pageable page){
-        return ResponseEntity.ok(batchService.findAll(page));
+    public ResponseEntity<Page<BatchDto>> findAll(@PathVariable Long id,
+                                                  @PageableDefault(sort = "amount", direction = Sort.Direction.DESC)
+                                                  Pageable page){
+        return ResponseEntity.ok(batchService.findAll(id, page));
     }
 
     @PostMapping
-    public ResponseEntity<BatchDto> create(@Valid @RequestBody BatchFormPostDto batchFormPostDto){
-        return ResponseEntity.created(batchService.create(batchFormPostDto)).build();
+    public ResponseEntity<BatchDto> create(@PathVariable Long id, @Valid @RequestBody BatchFormPostDto batchFormPostDto){
+        return ResponseEntity.created(batchService.create(id, batchFormPostDto)).build();
     }
 
     @PutMapping("/retail")
-    public ResponseEntity<BatchLeavingDto> updateFromRetail(@Valid @RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
-        return ResponseEntity.ok(batchService.updateFromRetail(batchFormPutFromRetailDto));
+    public ResponseEntity<BatchLeavingDto> updateFromRetail(@PathVariable Long id, @Valid @RequestBody BatchFormPutFromRetailDto batchFormPutFromRetailDto){
+        return ResponseEntity.ok(batchService.updateFromRetail(id, batchFormPutFromRetailDto));
     }
 
     @PutMapping("/wholesale")
-    public ResponseEntity<BatchLeavingDto> updateFromWholesale(@Valid @RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
-        return ResponseEntity.ok(batchService.updateFromWholesale(batchFormPutFromWholesaleDto));
+    public ResponseEntity<BatchLeavingDto> updateFromWholesale(@PathVariable Long id, @Valid @RequestBody BatchFormPutFromWholesaleDto batchFormPutFromWholesaleDto){
+        return ResponseEntity.ok(batchService.updateFromWholesale(id, batchFormPutFromWholesaleDto));
     }
 }

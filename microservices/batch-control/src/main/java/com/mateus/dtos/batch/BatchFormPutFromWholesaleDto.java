@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 public class BatchFormPutFromWholesaleDto {
 
     @NotNull
-    private Long idProduct;
-
-    @NotNull
     private Integer numberBatches;
 
     @NotNull

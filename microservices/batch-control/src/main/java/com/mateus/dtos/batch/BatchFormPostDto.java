@@ -26,6 +26,4 @@ public class BatchFormPostDto {
     @NotNull
     private Integer amount;
 
-    @NotNull
-    private Long productId;
 }

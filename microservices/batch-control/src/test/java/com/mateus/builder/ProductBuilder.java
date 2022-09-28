@@ -25,13 +25,13 @@ public class ProductBuilder {
             "Lote de Bolo - Morango",
             LocalDate.of(2023, 7, 20),
             20,
-            ProductBuilder.getProduct());
+            1L);
 
     private static final Batch batchB = new Batch("1a09b2022b",
             "Lote de Bolo - Morango",
             LocalDate.of(2023, 8, 20),
             50,
-            ProductBuilder.getProduct());
+            1L);
     private static final List<Batch> batches = List.of(BatchBuilder.getBatch(), batchA, batchB);
 
     private static final Long storeId = 1L;

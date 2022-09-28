@@ -33,5 +33,9 @@ public class Product {
         batches.add(batch);
     }
 
+    public List<Batch> getBatches(){
+        return batches;
+    }
+
     private Long storeId;
 }

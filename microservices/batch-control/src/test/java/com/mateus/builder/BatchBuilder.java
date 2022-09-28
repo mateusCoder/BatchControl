@@ -21,8 +21,6 @@ public class BatchBuilder {
 
     private static final Integer amount = 50;
 
-    private static final Product product = ProductBuilder.getProduct();
-
     private static final Long productId = 1L;
 
     private static final Integer numberBatches = 1;
@@ -40,7 +38,7 @@ public class BatchBuilder {
                 .description(description)
                 .expirationDate(expirationDate)
                 .amount(amount)
-                .product(product)
+                .productId(productId)
                 .build();
     }
 
@@ -59,20 +57,17 @@ public class BatchBuilder {
                 .description(description)
                 .expirationDate(expirationDate)
                 .amount(amount)
-                .productId(productId)
                 .build();
     }
 
     public static BatchFormPutFromRetailDto getBatchFormPutFromRetailDto(){
         return BatchFormPutFromRetailDto.builder()
-                .idProduct(productId)
                 .amount(amount)
                 .build();
     }
 
     public static BatchFormPutFromWholesaleDto getBatchFormPutFromWholesaleDto(){
         return BatchFormPutFromWholesaleDto.builder()
-                .idProduct(productId)
                 .numberBatches(numberBatches)
                 .productsPerBatch(productsPerBatch)
                 .build();

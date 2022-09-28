@@ -1,0 +1,348 @@
+openapi: 3.0.1
+info:
+  title: Batch Control
+  description: Monolithic API developed in Java Spring Boot.
+  version: 1.0.0
+tags:
+- name: "Stores"
+  description: "Store Methods"
+- name: "Products"
+  description: "Product Methods"
+- name: "Batches"
+  description: "Batch Methods"
+
+externalDocs:
+  description: Read more about BatchControl
+  url: https://github.com/yhonathanpavan/Compass.UOL-Projeto-BicoOn#readme
+servers:
+- url: http://localhost:8080/v1
+paths:
+
+  /stores:
+    post:
+      tags:
+      - "Stores"
+      summary: Register a store by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StoreCreateForm"
+      responses:
+        201: 
+          description: "CREATED"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+  /stores/{id}:
+    parameters: 
+    - name: id
+      in: path 
+      schema:
+        type: integer
+      required: true 
+    get:
+      tags:
+      - "Stores"
+      summary: Details a store by ID
+      responses:
+        200:
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Store"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
+    put:
+      tags:
+      - "Stores"
+      summary: Update a store by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Store"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
+                  
+  /stores/{id}/products:
+    parameters: 
+        - name: id
+          in: path 
+          schema:
+            type: integer
+          required: true 
+    get:
+      tags:
+      - "Products"
+      summary: Lists all products in a store
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Product"
+    post:
+      tags:
+      - "Products"
+      summary: Register a product by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreateForm"
+      responses:
+        201: 
+          description: "CREATED"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+  /stores/{id}/products/{productId}:
+    parameters: 
+    - name: id
+      in: path 
+      schema:
+        type: integer
+      required: true 
+    - name: productId
+      in: path 
+      schema:
+        type: integer
+      required: true 
+    get:
+      tags:
+      - "Products"
+      summary: Details a product by ID
+      responses:
+        200:
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Product"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
+    put:
+      tags:
+      - "Products"
+      summary: Update a product by ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
+                
+  /products/batches:
+    get:
+      tags:
+      - "Batches"
+      summary: Lists all batches of a product
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Batch"
+    post:
+      tags:
+      - "Batches"
+      summary: Register a batch of a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BatchCreateForm"
+      responses:
+        201: 
+          description: "CREATED"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+                
+  /stores/retail:
+    put:
+      tags:
+      - "Stores"
+      summary: Update amount of a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Store"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+           
+components:
+  schemas:
+    Store:
+      type: object
+      properties: 
+        id: 
+          type: integer
+        companyName:
+          type: string
+        phoneNumber: 
+          type: string
+        cnpj:
+          type: string
+        city:
+          type: string
+        active:
+          type: boolean
+          
+    StoreCreateForm:
+      type: object
+      properties: 
+        id: 
+          type: integer
+        companyName:
+          type: string
+        phoneNumber: 
+          type: string
+        cnpj:
+          type: string
+        city:
+          type: string
+          
+    Product:
+      type: object
+      properties: 
+        id: 
+          type: integer
+        name:
+          type: string
+        description: 
+          type: string
+        active:
+          type: boolean
+        storeId:
+          type: integer
+          
+    ProductCreateForm:
+      type: object
+      properties: 
+        id: 
+          type: integer
+        name:
+          type: string
+        description: 
+          type: string
+        storeId:
+          type: integer
+          
+    Batch:
+      type: object
+      properties: 
+        id: 
+          type: string
+        description:
+          type: string
+        expirationDate: 
+          type: string
+        amount:
+          type: integer
+          
+    BatchCreateForm:
+      type: object
+      properties: 
+        id: 
+          type: string
+        description:
+          type: string
+        expirationDate: 
+          type: string
+        amount:
+          type: integer
+        productId:
+          type: integer
+          
+    MensagensBadRequest:
+      type: array
+      items:
+       properties:
+        campo:   
+          type: string
+        erro:   
+          type: string
+    
+    MensagensNotFound:
+       properties:
+        timestamp:   
+          type: integer
+        status:   
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+
+
