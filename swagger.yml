@@ -107,7 +107,13 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Product"
+                  $ref: "#/components/schemas/ProductPageable"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
     post:
       tags:
       - "Products"
@@ -126,6 +132,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MensagensBadRequest"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensNotFound"
   /stores/{id}/products/{productId}:
     parameters: 
     - name: id
@@ -163,14 +175,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: "#/components/schemas/ProductUpdateForm"
       responses:
         200:
           description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/ProductUpdateForm"
         400:
           description: Bad Request
           content:
@@ -184,7 +196,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/MensagensNotFound"
                 
-  /products/batches:
+  /products/{id}/batches:
+    parameters: 
+    - name: id
+      in: path 
+      schema:
+        type: integer
+      required: true 
     get:
       tags:
       - "Batches"
@@ -214,38 +232,82 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MensagensBadRequest"
-                
-  /stores/retail:
+  /products/{id}/batches/retail:
+    parameters: 
+    - name: id
+      in: path 
+      schema:
+        type: integer
+      required: true 
     put:
       tags:
-      - "Stores"
-      summary: Update amount of a product
+      - "Batches"
+      summary: Update amount of a batch for Retail
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Store"
+              $ref: "#/components/schemas/BatchFormPutFromRetailDto"
       responses:
         200:
           description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Store"
+                $ref: "#/components/schemas/BatchLeavingDto"
         400:
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/MensagensBadRequest"
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnprocessableEntity"
+  /products/{id}/batches/wholesale:
+    parameters: 
+      - name: id
+        in: path 
+        schema:
+          type: integer
+        required: true 
+    put:
+      tags:
+      - "Batches"
+      summary: Update amount of a batch for Wholesale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BatchFormPutFromWholesaleDto"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchLeavingDto"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensagensBadRequest"
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnprocessableEntity"
            
 components:
   schemas:
     Store:
       type: object
       properties: 
-        id: 
-          type: integer
         companyName:
           type: string
         phoneNumber: 
@@ -260,8 +322,6 @@ components:
     StoreCreateForm:
       type: object
       properties: 
-        id: 
-          type: integer
         companyName:
           type: string
         phoneNumber: 
@@ -285,17 +345,65 @@ components:
         storeId:
           type: integer
           
+    ProductPageable:
+      type: object
+      properties: 
+        content:
+          type: array
+          items:
+            type: object
+            properties: 
+              name:
+                type: string
+              description: 
+                type: string
+              active:
+                type: boolean
+        pageable:
+          type: string
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+        last:
+          type: boolean
+        size:
+          type: integer
+        number:
+          type: integer
+        sort:
+          type: object
+          properties: 
+            empty: 
+              type: boolean
+            unsorted:
+              type: boolean
+            sorted:
+              type: boolean
+        numberOfElements:
+          type: integer
+        first: 
+          type: boolean
+        empty:
+          type: boolean
+          
     ProductCreateForm:
       type: object
       properties: 
-        id: 
-          type: integer
         name:
           type: string
         description: 
           type: string
-        storeId:
-          type: integer
+          
+    ProductUpdateForm:
+      type: object
+      properties: 
+        name:
+          type: string
+        description: 
+          type: string
+        active:
+          type: boolean
           
     Batch:
       type: object
@@ -320,19 +428,54 @@ components:
           type: string
         amount:
           type: integer
-        productId:
+          
+    BatchLeavingDto:
+      type: object
+      properties: 
+        productName: 
+          type: string
+        idBatch:
+          type: string
+          
+    BatchFormPutFromRetailDto:
+      type: object
+      properties: 
+        amount:
+          type: integer
+          
+    BatchFormPutFromWholesaleDto:
+      type: object
+      properties: 
+        numberBatches:
+          type: integer
+        productsPerBatch:
           type: integer
           
     MensagensBadRequest:
-      type: array
-      items:
-       properties:
-        campo:   
+      properties:
+        timestamp:   
+          type: integer
+        status:   
+          type: integer
+        error:
           type: string
-        erro:   
+        path:
           type: string
     
     MensagensNotFound:
+       properties:
+        timestamp:   
+          type: integer
+        status:   
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+          
+    UnprocessableEntity:
        properties:
         timestamp:   
           type: integer
